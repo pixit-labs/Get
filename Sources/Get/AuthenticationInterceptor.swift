@@ -185,6 +185,27 @@ extension AuthenticationInterceptor: APIClientDelegate {
 
         return false
     }
+
+  // if an invalid responses is received we  decode the response error
+  public func client(_ client: APIClient, didReceiveInvalidResponse response: HTTPURLResponse, data: Data) -> Error {
+    switch response.statusCode {
+    case 422:
+      return handleServerResponseError(data: data, urlResponse: response)
+    default:
+      return APIError.unacceptableStatusCode(response.statusCode)
+    }
+  }
+
+  private func handleServerResponseError(data: Data, urlResponse: HTTPURLResponse) -> Error {
+    do {
+      let decoder = JSONDecoder()
+      decoder.dateDecodingStrategy = .iso8601
+      let apiErrorResponse = try decoder.decode(ErrorResponse.self, from: data)
+      return APIManagerError.apiProvidedError(reason: apiErrorResponse.friendlyErrors())
+    } catch let error {
+      return error
+    }
+  }
 }
 
 // MARK: - Errors
