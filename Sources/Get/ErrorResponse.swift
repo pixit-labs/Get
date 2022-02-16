@@ -7,8 +7,7 @@
 
 import Foundation
 
-
-enum APIManagerError: Error {
+public enum APIManagerError: Error {
   case network(reason: String)
   case apiProvidedError(reason: String)
   case unexpectedResponse(reason: String)
@@ -20,7 +19,7 @@ enum APIManagerError: Error {
   case unavailableService(reason: String)
 }
 
-struct ErrorResponse: Decodable {
+public struct ErrorResponse: Decodable {
   let message: String
   let errors: [ResourceError]
 
@@ -29,7 +28,7 @@ struct ErrorResponse: Decodable {
   }
 }
 
-struct ResourceError: Decodable {
+public struct ResourceError: Decodable {
   let resource: String
   let field: String
   let code: String
@@ -39,7 +38,7 @@ struct ResourceError: Decodable {
   }
 }
 
-struct ApiTokenError: Decodable {
+public struct ApiTokenError: Decodable {
   let error: String
   let errorDescription: String
 
@@ -49,7 +48,7 @@ struct ApiTokenError: Decodable {
   }
 }
 
-struct DeviseErrors: Decodable {
+public struct DeviseErrors: Decodable {
   let errors: DeviseError
 
   struct DeviseError: Decodable {
