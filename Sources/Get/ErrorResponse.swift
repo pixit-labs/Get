@@ -23,7 +23,7 @@ public struct ErrorResponse: Decodable {
   let message: String
   let errors: [ResourceError]
 
-  func friendlyErrors() -> String {
+  public func friendlyErrors() -> String {
     return "\(message): \((errors.map { $0.fieldError() }).joined(separator: "\n"))"
   }
 }
@@ -33,7 +33,7 @@ public struct ResourceError: Decodable {
   let field: String
   let code: String
 
-  func fieldError() -> String {
+  public func fieldError() -> String {
     return "\(resource) - \(field): \(code)"
   }
 }
@@ -54,7 +54,7 @@ public struct DeviseErrors: Decodable {
   struct DeviseError: Decodable {
     let email: [String]?
 
-    func localizedError() -> String {
+    public func localizedError() -> String {
       return "Email ".localizedLowercase + (email?.first ?? "not found".localizedLowercase)
     }
   }
