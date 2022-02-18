@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum APIManagerError: Error {
+public enum APIManagerError: Error, LocalizedError {
   case network(reason: String)
   case apiProvidedError(reason: String)
   case unexpectedResponse(reason: String)
@@ -17,6 +17,15 @@ public enum APIManagerError: Error {
   case objectSerialization(reason: String)
   case internalServerError(reason: String)
   case unavailableService(reason: String)
+
+  public var errorDescription: String? {
+    switch self {
+    case .notAuthorized(let reason):
+      return reason
+    default:
+      return "Response status code was unacceptable."
+    }
+  }
 }
 
 public struct ErrorResponse: Decodable {
