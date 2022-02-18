@@ -20,6 +20,8 @@ public enum APIManagerError: Error, LocalizedError {
 
   public var errorDescription: String? {
     switch self {
+    case .apiProvidedError(let reason):
+      return reason
     case .notAuthorized(let reason):
       return reason
     default:
